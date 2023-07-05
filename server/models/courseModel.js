@@ -1,9 +1,8 @@
-const data = require('emacs/src/data');
-const mongoose = require('mongoose')
-
+// import data from 'emacs/src/data';
+import mongoose from 'mongoose'
+console.log('fuf')
 const courseSchema = mongoose.Schema(
     {
-        _id: false,
         uid: {
             type: String
         },
@@ -17,7 +16,7 @@ const courseSchema = mongoose.Schema(
         },
         duration: {
             type: mongoose.Schema.Types.Mixed,
-            default: { hours: 0, minutes: 0 }, 
+            default: { hours: 0, minutes: 0 },
         },
         tags: {
             type: [String],
@@ -25,8 +24,14 @@ const courseSchema = mongoose.Schema(
         },
 
         testimonials: {
-            type: [String], 
-            default: [], 
+            type: [String],
+            default: [],
+        },
+        views: {
+            type: Number
+        },
+        likes: {
+            type: Number
         },
         price: {
             type: Number,
@@ -41,26 +46,25 @@ const courseSchema = mongoose.Schema(
             type: Date,
             default: Date.now(),
         },
-        courseURL : {
+        courseURL: {
             type: String,
 
         },
-        level : {
+        level: {
             type: String,
-            enum : [easy, medium, hard],
-            default : 'medium'
+            enum: ['easy', 'medium', 'hard'],
+            default: 'medium'
         },
-        topicsCovered : {
+        topicsCovered: {
             type: [String],
-            default:[]
+            default: []
         },
-        outcome : {
-            type : String
+        outcome: {
+            type: String
         }
     }
 )
 
-
 const Courses = mongoose.model('Courses', courseSchema);
 
-module.exports = Courses;
+export default Courses;

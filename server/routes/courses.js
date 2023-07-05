@@ -1,12 +1,11 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const Courses = require('./models/courseModel')
+import express from 'express'
+import mongoose from 'mongoose'
+import Courses from '../models/courseModel.js'
 console.log(Courses);
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid'
+import Redis from 'redis'
 
-const Redis = require('redis')
-
-const router = express.Router()
+const app = express()
 
 const redisClient = Redis.createClient();
 // const DEFAULT_EXPIRATION = 3600;
@@ -156,4 +155,4 @@ app.delete('/courses/:id', async (req, res) => {
     }
 })
 
-export default router;
+export default app;
