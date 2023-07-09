@@ -21,17 +21,19 @@ const courseSchema = mongoose.Schema(
         tags: {
             type: [String],
             default: [],
-        },
+        }, 
 
         testimonials: {
             type: [String],
             default: [],
         },
         views: {
-            type: Number
+            type: Number,
+            default: 0
         },
         likes: {
-            type: Number
+            type: Number,
+            default: 0
         },
         price: {
             type: Number,
@@ -44,7 +46,7 @@ const courseSchema = mongoose.Schema(
         },
         createdAt: {
             type: Date,
-            default: Date.now(),
+            default: new Date()
         },
         courseURL: {
             type: String,

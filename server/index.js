@@ -1,25 +1,30 @@
-// import bodyParser from 'body-parser'
+import bodyParser from 'body-parser'
 import express from 'express'
 import mongoose from 'mongoose'
+import cors from 'cors'
 
-import courseRoutes from './routes/courses.js'
+import router from './routes/courses.js'
 
 const app = express()
+app.use('/', router)
 
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-// app.use(bodyParser.json({ limit: "30mb", extended : true}));
-// app.use(bodyParser.urlencoded({ limit: "30mb", extended: true}));
+app.use(cors());
 
+const connection_URL = 'mongodb+srv://project2:project2@cluster0.nh4rgg4.mongodb.net/?retryWrites=true&w=majority'
+const PORT = process.env.PORT || 5000;
 
 mongoose.set("strictQuery", false)
 mongoose.
-    connect('mongodb+srv://project2:project2@cluster0.nh4rgg4.mongodb.net/?retryWrites=true&w=majority')
-    
+    connect(connection_URL)
+
     .then(() => {
         console.log('connected to MongoDB')
-        app.listen(3000, () => {
-            console.log(`Node API app is running on port 3000`)
+        app.listen(5000, () => {
+            console.log(`Node API app is running on port ${PORT}`)
         });
     }).catch((error) => {
         console.log(error)
-    })
+    }) 
