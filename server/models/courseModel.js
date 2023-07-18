@@ -9,7 +9,7 @@ const courseSchema = mongoose.Schema(
         title: {
             type: String,
             required: [true, "Please enter a course name"]
-        },
+        },  
         instructor: {
             type: String,
             required: true
@@ -36,13 +36,10 @@ const courseSchema = mongoose.Schema(
             default: 0
         },
         price: {
-            type: Number,
-            required: true,
+            type: Number
         },
         image: {
-            type: String,
-            default: "https://youthincmag.com/wp-content/uploads/2019/03/NILIS-University-of-Colombo.jpg",
-            required: false,
+            type: String
         },
         createdAt: {
             type: Date,

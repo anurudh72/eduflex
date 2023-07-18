@@ -23,7 +23,7 @@ export const home =  (req, res) => {
     res.send('Hello NODE API')
 }
 
-export const getCousrses = async (req, res) => {
+export const getCourses = async (req, res) => {
     try {
 
         const { name, author } = req.query;

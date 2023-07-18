@@ -23,7 +23,10 @@ const userSchema = mongoose.Schema(
             type: [String],
             default: []
         },
-        name: {
+        firstName: {
+            type: String
+        },
+        lastName: {
             type: String
         },
         profile: {

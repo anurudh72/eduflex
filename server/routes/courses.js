@@ -1,12 +1,12 @@
 import express from "express"
 
-import { createCourse, getCousrses, home  } from '../controllers/courses.js'
+import { createCourse, getCourses, home  } from '../controllers/courses.js'
 
 const router = express.Router()
 
-router.get('/', home );
-router.get('/courses', getCousrses)
-router.post('/courses', createCourse )
+// router.get('/', home );
+router.get('/', getCourses)
+router.post('/', createCourse )
 
 
 
