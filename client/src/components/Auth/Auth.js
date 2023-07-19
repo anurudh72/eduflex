@@ -1,38 +1,71 @@
 import React, { useState } from 'react'
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core'
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import queryString from 'query-string';
+// import queryString from 'query-string';
 // import { GoogleOAuthProvider } from 'google-oauth-gsi';
 
-
+import axios from "axios";
+import { useNavigate } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
 import useStyles from './styles'
 import Input from './Input'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Icon from './icon'
 
+const initials = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', }
 
-const Auth = () => {
+export const Auth = () => {
   const classes = useStyles();
-
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false)
 
   const [isSignup, setIsSignup] = useState(false)
 
+  const [formData, setFormData] = useState(initials)
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
-  const handleSubmit = () => {
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // console.log(formData)
+    if (isSignup) {
+      try {
+        const { data } = await axios.post("http://localhost:5000/user/signup", formData);
+        // console.log(formData);
+        console.log(data)
+        localStorage.setItem('profile', JSON.stringify(data.result));
+        navigate('/')
+      }
+      catch (err) {
+        console.log(err)
+      }
+
+    }
+    else {
+      try {
+        console.log(formData)
+        const { data } = await axios.post("http://localhost:5000/user/signin", formData);
+        
+        console.log(data)
+        localStorage.setItem('profile', JSON.stringify(data.result));
+        navigate('/')
+
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    // console.log(formData);
   }
 
-  const handleChange = () => {
-
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
-    handleShowPassword(false);
+    setShowPassword(false);
   }
   const googleSuccess = async (res) => {
     // console.log(res)
@@ -40,6 +73,9 @@ const Auth = () => {
     // console.log((decoded))
 
     localStorage.setItem('profile', JSON.stringify(decoded));
+
+    navigate('/')
+
 
   }
 
@@ -64,50 +100,50 @@ const Auth = () => {
               {
                 isSignup && (
                   <>
-                    <Input name='firstName' label='First Name' handleChange={handleChange} autoFocus
+                    <Input name='firstName' label='First Name' value={formData.firstName} handleChange={handleChange} autoFocus
                       half />
-                    <Input name='lastName' label='Last Name' handleChange={handleChange}
+                    <Input name='lastName' label='Last Name' value={formData.lastName} handleChange={handleChange}
                       half />
 
 
                   </>
                 )
               }
-              <Input name="email" label="Email Address" handleChange={handleChange} type='email' />
-              <Input name='password' label='Password' handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
-              {isSignup && <Input name='confirmPassword' label='Repeat Password' handleChange={handleChange} type='password' />}
+              <Input name="email" label="Email Address" value={formData.email} handleChange={handleChange} type='email' />
+              <Input name='password' label='Password' value={formData.password} handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
+              {isSignup && <Input name='confirmPassword' value={formData.confirmPassword} label='Repeat Password' handleChange={handleChange} type='password' />}
             </Grid>
             <Button style={{ marginTop: '10px', height: '50px', fontSize: '18px', fontFamily: 'cursive' }} type='submit' fullWidth variant='contained' color='secondary'  >
               {isSignup ? 'Sign Up' : 'Sign In'}
             </Button>
 
             {/* <Button onClick={login} style={{ marginTop: '10px', height: '50px', fontSize: '18px', fontFamily: 'cursive' }} type='submit' fullWidth variant='contained' color='secondary' className='classes.submit'> Google Sign In 🚀  </Button> */}
-              <div fullWidth style={{ marginTop:'10px', alignContent:'center' }}>
-            <GoogleOAuthProvider clientId="288291438472-v54k0t16ebccoei2vb86ts8c4dal6qhq.apps.googleusercontent.com"
-            >
-              <GoogleLogin
+            <div fullWidth style={{ marginTop: '10px', alignContent: 'center' }}>
+              <GoogleOAuthProvider clientId="288291438472-v54k0t16ebccoei2vb86ts8c4dal6qhq.apps.googleusercontent.com"
+              >
+                <GoogleLogin
 
-                render={(renderProps) => (
-                  <Button
-                    style={{ marginTop: '10px', height: '50px', fontSize: '18px', fontFamily: 'cursive' }} type='submit' fullWidth variant='contained' color='secondary'
-                    className={classes.submit}
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                  >
-                    Sign in with google🚀
-                  </Button>
-                )}
-                // onSuccess={responseGoogle}
-                // onFailure={responseGoogle}
-                // ) }
-                onSuccess={googleSuccess}
-                onError={googleFailure}
-                cookiePolicy="single_host_origin"
+                  render={(renderProps) => (
+                    <Button
+                      style={{ marginTop: '10px', height: '50px', fontSize: '18px', fontFamily: 'cursive' }} type='submit' fullWidth variant='contained' color='secondary'
+                      className={classes.submit}
+                      onClick={renderProps.onClick}
+                      disabled={renderProps.disabled}
+                    >
+                      Sign in with google🚀
+                    </Button>
+                  )}
+                  // onSuccess={responseGoogle}
+                  // onFailure={responseGoogle}
+                  // ) }
+                  onSuccess={googleSuccess}
+                  onError={googleFailure}
+                  cookiePolicy="single_host_origin"
 
-              />
+                />
 
 
-            </GoogleOAuthProvider>
+              </GoogleOAuthProvider>
             </div>
 
             <Grid conatainer justifyContent='flex-end'>
@@ -123,4 +159,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+// export default Auth

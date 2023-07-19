@@ -2,18 +2,14 @@ import mongoose from "mongoose"
 
 const userSchema = mongoose.Schema(
     {
-        id: {
-            type: String,
-            unique: true,
-            required: true
-        },
+        // id: {
+        //     type: String
+        // },
         email: { 
-            type: String,
-            required : true
+            type: String
         },
         password: {
-            type: String,
-            required: true
+            type: String
         },
         likedCourses: {
             type: [String],
@@ -29,8 +25,14 @@ const userSchema = mongoose.Schema(
         lastName: {
             type: String
         },
+        name: {
+            type: String
+        },
         profile: {
             type: String
+        },
+        isAdmin: {
+            type: Boolean
         }
 
     }

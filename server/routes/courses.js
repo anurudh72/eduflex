@@ -1,13 +1,20 @@
 import express from "express"
 
-import { createCourse, getCourses, home  } from '../controllers/courses.js'
+import { createCourse, getCourses, getCourse, deleteCourse, likeCourse, updateCourse, home  } from '../controllers/courses.js'
 
-const router = express.Router()
+import auth from '../middleware/auth.js'
+const courseRoutes = express.Router()
 
-// router.get('/', home );
-router.get('/', getCourses)
-router.post('/', createCourse )
+// courseRoutes.get('/', home );
+courseRoutes.get('/', getCourses)
+courseRoutes.post('/', auth, createCourse )
+courseRoutes.get('/:id', getCourse)
+courseRoutes.delete('/:id', auth, deleteCourse)
+courseRoutes.patch('/:id', auth, updateCourse)
+courseRoutes.patch('/:id/likeCourse', auth, likeCourse)
 
 
 
-export default router
+
+
+export default courseRoutes

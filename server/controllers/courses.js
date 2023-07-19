@@ -28,7 +28,7 @@ export const getCourses = async (req, res) => {
 
         const { name, author } = req.query;
 
-        console.log("logging")
+        // console.log("logging")
         // console.log(req.query)
         // console.log(name)
         // console.log(author)
@@ -54,7 +54,7 @@ export const getCourses = async (req, res) => {
     }
 }
 
-router.get('/courses/:id', async (req, res) => {
+export const getCourse = async (req, res) => {
     try {
         const { id } = req.params;
         const course = await Courses.findById(id);
@@ -74,21 +74,22 @@ router.get('/courses/:id', async (req, res) => {
             else console.log(err);
         });
 
-        // let condition;
-        // if(condition){
-        //     const likes = await redisClient.incr(redLikes, function(err, rep) {
-        //         if (!err) console.log(rep);
-        //         else console.log(err);
-        //       });
-        // }
+        let condition;
+        if(condition){
+            const likes = await redisClient.incr(redLikes, function(err, rep) {
+                if (!err) console.log(rep);
+                else console.log(err);
+              });
+        }
         const likes = await redisClient.get(redLikes);
 
         res.status(200).json({ course, views, likes }); //
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
-})
+}
 
+// create a course
 export const createCourse = async (req, res) => {
     try {
 
@@ -122,8 +123,37 @@ export const createCourse = async (req, res) => {
     }
 } 
 
+// like 
+
+
+export const likeCourse = async (req, res) =>{
+    
+    const { id } = req.params;
+    if(!req.userId) return res.json({message: 'Unauthenticated'});
+
+    const course = await Courses.findById(id);
+
+    const index = course.likeCount.findIndex((id) => id == String(req.userId) )
+
+    if(index==-1){
+        course.likeCount.push(req.userId);
+    }
+    else{
+        course.likeCount = course.likeCount.filter((id) => id!= String(req.userId) )
+    }
+
+    const updatedCourse = await Courses.findByIdAndUpdate(id, course, {new: true})
+
+    res.json(updateCourse);
+    // const likes = await redisClient.incr(redLikes, function(err, rep) {
+    //     if (!err) console.log(rep);
+    //     else console.log(err);
+    //   });
+}
+
+
 // update a course
-router.put('/courses/:id', async (req, res) => {
+export const updateCourse = async (req, res) => {
     try {
         const { id } = req.params;
         const course = await Courses.findByIdAndUpdate(id, req.body);
@@ -137,11 +167,11 @@ router.put('/courses/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
-})
+}
 
 // delete a course
 
-router.delete('/courses/:id', async (req, res) => {
+export const deleteCourse = async (req, res) => {
     try {
         const { id } = req.params;
         const course = await Courses.findByIdAndDelete(id);
@@ -153,6 +183,6 @@ router.delete('/courses/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
-})
+}
 
 export default router;

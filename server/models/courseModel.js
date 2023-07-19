@@ -31,9 +31,9 @@ const courseSchema = mongoose.Schema(
             type: Number,
             default: 0
         },
-        likes: {
-            type: Number,
-            default: 0
+        likeCount: {
+            type: [String],
+            default: []
         },
         price: {
             type: Number
@@ -43,7 +43,7 @@ const courseSchema = mongoose.Schema(
         },
         createdAt: {
             type: Date,
-            default: new Date()
+            default: new Date().toISOString
         },
         courseURL: {
             type: String,

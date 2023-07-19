@@ -21,7 +21,7 @@ const Hom = () => {
       try {
         const response = await axios.get("http://localhost:5000/home");
         setData(response.data.cor);
-      } catch (error) {
+      } catch (error)  {
         console.error(error);
       }
     };
@@ -30,7 +30,7 @@ const Hom = () => {
   }, []);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <div><CircularProgress /></div>;
   }
 
 
