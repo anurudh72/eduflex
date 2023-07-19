@@ -41,6 +41,9 @@ export default makeStyles((theme) => ({
   },
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
-    backgroundColor: deepPurple[500],
+    backgroundColor: deepPurple[500], 
+    width: theme.spacing(7), // Adjust the value as needed
+    height: theme.spacing(7),
+    fontSize: '2rem'
   },
 }));

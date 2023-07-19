@@ -19,7 +19,7 @@ export default makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    borderRadius: '2px',
+    borderRadius: '10px',
     height: '100%',
     position: 'relative',
   },

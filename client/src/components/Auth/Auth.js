@@ -34,7 +34,7 @@ export const Auth = () => {
         const { data } = await axios.post("http://localhost:5000/user/signup", formData);
         // console.log(formData);
         console.log(data)
-        localStorage.setItem('profile', JSON.stringify(data.result));
+        localStorage.setItem('profile', JSON.stringify(data));
         navigate('/')
       }
       catch (err) {
@@ -48,7 +48,7 @@ export const Auth = () => {
         const { data } = await axios.post("http://localhost:5000/user/signin", formData);
         
         console.log(data)
-        localStorage.setItem('profile', JSON.stringify(data.result));
+        localStorage.setItem('profile', JSON.stringify(data));
         navigate('/')
 
       } catch (err) {
@@ -68,7 +68,8 @@ export const Auth = () => {
     setShowPassword(false);
   }
   const googleSuccess = async (res) => {
-    // console.log(res)
+    console.log("hi gugul")
+    console.log(res)
     var decoded = jwt_decode(res.credential);
     // console.log((decoded))
 

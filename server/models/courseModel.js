@@ -43,7 +43,7 @@ const courseSchema = mongoose.Schema(
         },
         createdAt: {
             type: Date,
-            default: new Date().toISOString
+            default: new Date()
         },
         courseURL: {
             type: String,

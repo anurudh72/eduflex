@@ -44,10 +44,11 @@ const Navbar = () => {
                 {user ? (
                     <div className={classes.profile}>
                         {user.given_name ? ( <><Avatar className={classes.purple} alt={user.given_name} src={user.picture}>{user.given_name.charAt(0)} </Avatar>
-                        <Typography className={classes.userName} variant='h6'  > {user.given_name}
+                        <Typography className={classes.userName} variant='h4'  > {user.given_name}
 
-                        </Typography> </> ): (<><Avatar className={classes.purple} alt={user.name} src={user.picture}>{user.name.charAt(0)} </Avatar>
-                        <Typography className={classes.userName} variant='h6'  > {user.name}
+                        </Typography> </> ):
+                         (<><Avatar  variant="h2" className={classes.purple} alt={user?.result.name} src={user?.result.picture}>{user?.result.name.charAt(0)} </Avatar>
+                        <Typography className={classes.userName} variant='h5'  > {user.result.name}
 
                         </Typography> </> ) } 
                         <Button variant='contained' className={classes.logout} color='secondary' onClick={logout}  >Logout </Button>

@@ -126,32 +126,37 @@ export const createCourse = async (req, res) => {
 // like 
 
 
-export const likeCourse = async (req, res) =>{
-    
-    const { id } = req.params;
-    if(!req.userId) return res.json({message: 'Unauthenticated'});
-
-    const course = await Courses.findById(id);
-
-    const index = course.likeCount.findIndex((id) => id == String(req.userId) )
-
-    if(index==-1){
-        course.likeCount.push(req.userId);
+export const likeCourse = async (req, res) => {
+    try {
+      const { itemId, userId } = req.body;
+  
+      // Implement authentication if needed
+      // if (!req.userId) return res.status(401).json({ message: 'Unauthenticated' });
+  
+      console.log(itemId, userId);
+      
+      // Check if the course with the given itemId exists
+      const course = await Courses.findById(itemId);
+      if (!course) {
+        return res.status(404).json({ message: 'Course not found' });
+      }
+  
+      const index = course.likeCount.findIndex((id) => id === String(userId));
+      if (index === -1) {
+        course.likeCount.push(String(userId));
+      } else {
+        course.likeCount = course.likeCount.filter((id) => id !== String(userId));
+      }
+  
+      const updatedCourse = await Courses.findByIdAndUpdate(itemId, course, { new: true });
+  
+      res.json(updatedCourse);
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ message: 'Something went wrong' });
     }
-    else{
-        course.likeCount = course.likeCount.filter((id) => id!= String(req.userId) )
-    }
-
-    const updatedCourse = await Courses.findByIdAndUpdate(id, course, {new: true})
-
-    res.json(updateCourse);
-    // const likes = await redisClient.incr(redLikes, function(err, rep) {
-    //     if (!err) console.log(rep);
-    //     else console.log(err);
-    //   });
-}
-
-
+  };
+  
 // update a course
 export const updateCourse = async (req, res) => {
     try {

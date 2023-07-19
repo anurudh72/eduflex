@@ -17,7 +17,7 @@ const auth = async (req, res, next) => {
 
         }
         next()
-    } catch {
+    } catch (error) {
         console.log(error)
     }
 }
